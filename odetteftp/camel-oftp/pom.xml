@@ -18,9 +18,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
    <parent>
-      <groupId>org.neociclo.accord.odetteftp</groupId>
-      <artifactId>odetteftp-parent</artifactId>
-      <version>1.2.0-SNAPSHOT</version>
+     <groupId>org.accordproject.odetteftp</groupId>
+     <artifactId>oftp-project</artifactId>
+     <version>2.0.0-SNAPSHOT</version>
    </parent>
 
    <modelVersion>4.0.0</modelVersion>
@@ -36,7 +36,7 @@
     <odetteftp.osgi.import>
       !org.neociclo.odetteftp.camel.*,
       org.neociclo.odetteftp.*,
-      org.apache.camel.*;version="[2.5.0,3)",
+      org.apache.camel.*;version="[2.9.0,3)",
       org.apache.commons.io.*;version="[1.4.0,2)",
       *
     </odetteftp.osgi.import>
@@ -44,8 +44,8 @@
       org.neociclo.odetteftp.netty.*
     </odetteftp.osgi.private.pkg>
   
-    <camel.version>2.5.0</camel.version>
-    <commons-io.version>1.3.2</commons-io.version>
+    <camel.version>2.9.8</camel.version>
+    <commons-io.version>1.4</commons-io.version>
   </properties>
 
    <dependencies>
@@ -63,22 +63,39 @@
       </dependency>
 
       <dependency>
-         <groupId>org.apache.commons</groupId>
+         <groupId>commons-io</groupId>
          <artifactId>commons-io</artifactId>
          <version>${commons-io.version}</version>
       </dependency>
 
       <dependency>
-         <groupId>org.neociclo.accord.odetteftp</groupId>
+         <groupId>org.accordproject.odetteftp</groupId>
          <artifactId>oftp-core</artifactId>
          <version>${project.version}</version>
       </dependency>
 
-      <dependency>
-         <groupId>org.neociclo.accord.odetteftp</groupId>
+      <!-- dependency>
+         <groupId>org.accordproject.odetteftp</groupId>
          <artifactId>oftp-examples</artifactId>
          <version>${project.version}</version>
-      </dependency>
+      </dependency -->
    </dependencies>
 
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <version>2.2.0</version>
+        <extensions>true</extensions>
+        <configuration>
+          <instructions>
+            <Import-Package>
+              *
+            </Import-Package>
+          </instructions>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

@@ -226,7 +226,7 @@ public class OftpOperations {
 			};
 
 			client.setDisconnectListener(onDisconnect);
-			client.connect(true);
+			// client.connect(true);
 		}
 
 		endpoint.setOftpClient(null);
