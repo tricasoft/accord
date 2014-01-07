@@ -145,11 +145,7 @@ public class OftpOperations {
 			return null;
 		}
 
-		// Using the framework support Oftplet factory working with Queues
-		CamelOftpletFactory factory = new CamelOftpletFactory(config, createClientSecurityHandler(), this);
-
-		InetSocketAddress address = new InetSocketAddress(settings.getHost(), settings.getPort());
-		TcpClient client = new TcpClient(address, sslContext, factory);
+		TcpClient client = new TcpClient(sslContext);
 
 		// provide resources to setup the asynchronous networking framework
 		client.setBossExecutor(getEndpoint().getBossExecutor());
@@ -203,6 +199,7 @@ public class OftpOperations {
 			client = initializeClient(send, recv);
 			endpoint.setOftpClient(client);
 		}
+		OftpSettings settings = getSettings();
 
 		synchronized (client) {
 
@@ -226,7 +223,7 @@ public class OftpOperations {
 			};
 
 			client.setDisconnectListener(onDisconnect);
-			// client.connect(true);
+			client.connect(new InetSocketAddress(settings.getHost(), settings.getPort()));
 		}
 
 		endpoint.setOftpClient(null);

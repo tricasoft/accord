@@ -16,7 +16,6 @@
  */
 package org.neociclo.odetteftp.camel.test;
 
-import static org.neociclo.odetteftp.examples.server.SimpleServerHelper.*;
 import static org.neociclo.odetteftp.protocol.v20.CipherSuite.NO_CIPHER_SUITE_SELECTION;
 import static org.neociclo.odetteftp.protocol.v20.FileCompression.NO_COMPRESSION;
 import static org.neociclo.odetteftp.protocol.v20.FileEnveloping.NO_ENVELOPE;
@@ -34,7 +33,6 @@ import java.util.Map;
 
 import org.apache.camel.util.ObjectHelper;
 import org.neociclo.odetteftp.TransferMode;
-import org.neociclo.odetteftp.examples.server.SimpleServerOftpletFactory;
 import org.neociclo.odetteftp.protocol.DefaultNormalizedVirtualFile;
 import org.neociclo.odetteftp.protocol.OdetteFtpObject;
 import org.neociclo.odetteftp.protocol.RecordFormat;
@@ -113,8 +111,9 @@ public class BaseServerTestSupport extends OftpTestSupport implements IUserManag
 		MappedCallbackHandler callbackHandler = new MappedCallbackHandler();
 		setupSecurityHandlers(callbackHandler);
 
-		SimpleServerOftpletFactory factory = new SimpleServerOftpletFactory(getOutputDir(), config, callbackHandler);
-		server = new TcpServer(address, factory);
+		// TODO: need to find some OftpletFactory to use, comment out for now...
+		// SimpleServerOftpletFactory factory = new SimpleServerOftpletFactory(getOutputDir(), config, callbackHandler);
+		server = new TcpServer(address, null);
 
 		server.disableLogging();
 		server.start();
@@ -123,7 +122,8 @@ public class BaseServerTestSupport extends OftpTestSupport implements IUserManag
 	private void createUsersDirectories() {
 		Collection<AccountInfo> accounts = getAllAccounts();
 		for (AccountInfo a : accounts) {
-			createUserDirStructureIfNotExist(a.getUserCode(), getOutputDir());
+			// TODO: lookup the right utility (from camel-file, iirc)
+			// createUserDirStructureIfNotExist(a.getUserCode(), getOutputDir());
 		}
 	}
 
@@ -198,7 +198,8 @@ public class BaseServerTestSupport extends OftpTestSupport implements IUserManag
 
 	public void storeDataInMailbox(String mailboxUser, OdetteFtpObject data) throws IOException {
 
-		createUserDirStructureIfNotExist(mailboxUser, getOutputDir());
+		// TODO: lookup the right utility (from camel-file, iirc)
+		// createUserDirStructureIfNotExist(mailboxUser, getOutputDir());
 
 		if (data instanceof VirtualFile) {
 			VirtualFile vf = (VirtualFile) data;
@@ -213,13 +214,15 @@ public class BaseServerTestSupport extends OftpTestSupport implements IUserManag
 				vf = normalizeVirtualFile(vf);
 			}
 
-			File dataFile = createDataFile(vf, getOutputDir());
+			// TODO: lookup the right utility (from camel-file, iirc)
+			// File dataFile = createDataFile(vf, getOutputDir());
+			File dataFile = null;
 			IoUtil.copy(payload, dataFile);
 
 			data = vf;
 		}
 
-		storeInMailbox(mailboxUser, data, getOutputDir());
+		// storeInMailbox(mailboxUser, data, getOutputDir());
 		
 	}
 
@@ -260,7 +263,8 @@ public class BaseServerTestSupport extends OftpTestSupport implements IUserManag
         long restartOffset = Math.max(vf.getRestartOffset(), 0);
 
         long unitCount = (vf.getFile() == null ? 0 : vf.getFile().length());
-        long fileSize = Math.max(vf.getSize(), ProtocolUtil.computeVirtualFileSize(unitCount, recordFormat, recordSize));
+        // long fileSize = Math.max(vf.getSize(), ProtocolUtil.computeVirtualFileSize(unitCount, recordFormat, recordSize));
+        long fileSize = 0;
 
         //
         // Default OFTP2 start file values when a simple VirtualFile object
@@ -344,7 +348,8 @@ public class BaseServerTestSupport extends OftpTestSupport implements IUserManag
         long restartOffset = Math.max(vf.getRestartOffset(), 0);
 
         long unitCount = (vf.getFile() == null ? 0 : vf.getFile().length());
-        long fileSize = Math.max(vf.getSize(), ProtocolUtil.computeVirtualFileSize(unitCount, recordFormat, recordSize));
+        // long fileSize = Math.max(vf.getSize(), ProtocolUtil.computeVirtualFileSize(unitCount, recordFormat, recordSize));
+        long fileSize = 0;
 
         // return the normalized virtual file
         DefaultNormalizedVirtualFile n = new DefaultNormalizedVirtualFile(vf);
@@ -363,10 +368,12 @@ public class BaseServerTestSupport extends OftpTestSupport implements IUserManag
 	}
 
 	public boolean hasDataInMailbox(String mailboxUser) {
-		return hasExchange(mailboxUser, getOutputDir());
+		// return hasExchange(mailboxUser, getOutputDir());
+		return false;
 	}
 
 	public OdetteFtpObject[] listDataInMailbox(String mailboxUser) throws IOException {
+		/*
 		File[] files = listExchanges(mailboxUser, getOutputDir());
 		ArrayList<OdetteFtpObject> exchanges = new ArrayList<OdetteFtpObject>();
 		if (files != null) {
@@ -376,10 +383,12 @@ public class BaseServerTestSupport extends OftpTestSupport implements IUserManag
 			}
 		}
 		return exchanges.toArray(new OdetteFtpObject[exchanges.size()]);
+		*/
+		return new OdetteFtpObject[0];
 	}
 
 	public void removeDataFromMailbox(String mailboxUser, OdetteFtpObject data) {
-		deleteExchange(mailboxUser, data, getOutputDir());
+		// deleteExchange(mailboxUser, data, getOutputDir());
 	}
 
 	// IUserManager implementation

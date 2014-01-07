@@ -22,6 +22,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.camel.EndpointInject;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.neociclo.odetteftp.camel.test.AccountInfo;
 import org.neociclo.odetteftp.camel.test.BaseServerTestSupport;
@@ -49,6 +50,7 @@ public class SimpleOftpProducerTest extends BaseServerTestSupport {
 		addAccount(new AccountInfo(DEST, PSWD));
 	}
 
+	@Ignore
 	@Test
 	public void testFileToOftp() throws Exception {
 

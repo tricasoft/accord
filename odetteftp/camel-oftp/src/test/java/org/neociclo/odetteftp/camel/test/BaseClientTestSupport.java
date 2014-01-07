@@ -29,7 +29,6 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.neociclo.odetteftp.TransferMode;
-import org.neociclo.odetteftp.examples.support.DefaultOftpletFactory;
 import org.neociclo.odetteftp.oftplet.OftpletFactory;
 import org.neociclo.odetteftp.protocol.DefaultVirtualFile;
 import org.neociclo.odetteftp.protocol.OdetteFtpObject;
@@ -112,11 +111,10 @@ public abstract class BaseClientTestSupport extends OftpTestSupport {
 
 		filesToSend.offer(vf);
 
-		OftpletFactory factory = new InOutSharedQueueOftpletFactory(conf, securityCallbacks, filesToSend, null, null);
-		TcpClient client = new TcpClient("localhost", getPort(), factory);
+		TcpClient client = new TcpClient();
 
 		client.disableLogging();
-		client.connect(true);
+		client.connect("localhost", getPort(), true);
 		
 	}
 
@@ -127,11 +125,10 @@ public abstract class BaseClientTestSupport extends OftpTestSupport {
 		MappedCallbackHandler securityCallbacks = new MappedCallbackHandler();
 		securityCallbacks.addHandler(PasswordCallback.class, new PasswordHandler(usercode, pwd));
 
-		OftpletFactory factory = new DefaultOftpletFactory(securityCallbacks);
-		TcpClient client = new TcpClient(server, getPort(), factory);
+		TcpClient client = new TcpClient();
 
 		client.disableLogging();
-		client.connect(true);
+		client.connect(server, getPort(), true);
 		
 	}
 
@@ -147,16 +144,16 @@ public abstract class BaseClientTestSupport extends OftpTestSupport {
 
 		final Queue<OdetteFtpObject> incomingQueue = new ConcurrentLinkedQueue<OdetteFtpObject>();
 		final Queue<OdetteFtpObject> outgoingQueue = new ConcurrentLinkedQueue<OdetteFtpObject>();
-
+        /*
 		InOutSharedQueueOftpletFactory factory = new InOutSharedQueueOftpletFactory(conf, securityCallbacks,
 				outgoingQueue, null, incomingQueue);
 
 		factory.setEventListener(eventListener);
-
-		TcpClient client = new TcpClient(server, getPort(), factory);
+        */
+		TcpClient client = new TcpClient();
 
 		client.disableLogging();
-		client.connect(true);
+		client.connect(server, getPort(), true);
 
 		ArrayList<OdetteFtpObject> result = new ArrayList<OdetteFtpObject>();
 		result.addAll(incomingQueue);

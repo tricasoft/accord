@@ -21,6 +21,7 @@ import org.apache.camel.EndpointInject;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
+import org.apache.camel.model.ModelCamelContext;
 import org.apache.camel.test.junit4.CamelTestSupport;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,7 +44,7 @@ public class TestFromOftpToFile extends CamelTestSupport {
 			enableJMX();
 		}
 
-		context = createCamelContext();
+		context = (ModelCamelContext)createCamelContext();
 		assertValidContext(context);
 
 		// reduce default shutdown timeout to avoid waiting for 300 seconds

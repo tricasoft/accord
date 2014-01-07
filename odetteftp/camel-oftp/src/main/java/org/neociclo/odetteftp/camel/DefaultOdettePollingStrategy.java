@@ -36,6 +36,11 @@ public class DefaultOdettePollingStrategy implements PollingConsumerPollStrategy
 	}
 
 	public void commit(Consumer consumer, Endpoint endpoint) {
+		commit(consumer, endpoint, 0);
+	}
+
+	public void commit(Consumer consumer, Endpoint endpoint, int polledMessages) {
+		// noop
 	}
 
 	public boolean rollback(Consumer consumer, Endpoint endpoint, int retryCounter, Exception cause) throws Exception {

@@ -96,6 +96,20 @@
           </instructions>
         </configuration>
       </plugin>
+
+     <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <!-- skip file stress tests as they are intended to run manually -->
+          <excludes>
+            <exclude>**/FromOftpServerToMockTest.java</exclude>
+            <exclude>**/OftpServerCommandsTest.java</exclude>
+            <exclude>**/SimpleOftpConsumerTest.java</exclude>
+            <exclude>**/SimpleOftpProducerTest.java</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+
     </plugins>
   </build>
 </project>

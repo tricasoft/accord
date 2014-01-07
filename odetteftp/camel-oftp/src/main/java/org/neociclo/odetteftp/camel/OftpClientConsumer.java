@@ -36,7 +36,7 @@ public class OftpClientConsumer extends ScheduledPollConsumer implements IOftpCo
 	}
 
 	@Override
-	protected void poll() throws Exception {
+	protected int poll() throws Exception {
 
 		OftpClientEndpoint endpoint = (OftpClientEndpoint) getEndpoint();
 		endpoint.setHasIn();
@@ -46,7 +46,10 @@ public class OftpClientConsumer extends ScheduledPollConsumer implements IOftpCo
 		} catch (Exception e) {
 			getExceptionHandler().handleException(e);
 		}
-
+		
+		// TODO: not really correct, should return the number of messages polled
+		//  but I am not sure the current design allows that; let's get it to compile first
+		return 0;
 	}
 
 	public void process(Exchange exchange) {
