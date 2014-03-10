@@ -145,7 +145,9 @@ public class OftpOperations {
 			return null;
 		}
 
+        CamelOftpletFactory factory = new CamelOftpletFactory(config, createClientSecurityHandler(), this);
 		TcpClient client = new TcpClient(sslContext);
+        client.setOftpletFactory(factory);
 
 		// provide resources to setup the asynchronous networking framework
 		client.setBossExecutor(getEndpoint().getBossExecutor());

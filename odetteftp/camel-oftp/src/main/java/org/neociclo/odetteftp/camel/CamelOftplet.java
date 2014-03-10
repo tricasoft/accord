@@ -112,6 +112,7 @@ public class CamelOftplet implements Oftplet, OftpletSpeaker, OftpletListener {
 
 	public void onExceptionCaught(Throwable cause) {
 		LOGGER.error("onExceptionCaught()", cause);
+        throw new RuntimeCamelException(cause);
 	}
 
 	public boolean isProtocolVersionSupported(OdetteFtpVersion version) {
